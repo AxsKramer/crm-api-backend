@@ -1,0 +1,35 @@
+{
+  "name": "crm-api",
+  "version": "1.0.0",
+  "description": "Project MERN. (Backend)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./src/index",
+    "start": "node ./src/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AxsKramer/crm-api-backend.git"
+  },
+  "keywords": [],
+  "author": "Alexander Kramer <kramer.axs1@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AxsKramer/crm-api-backend/issues"
+  },
+  "homepage": "https://github.com/AxsKramer/crm-api-backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.17",
+    "multer": "^1.4.2",
+    "shortid": "^2.2.16"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7"
+  }
+}

@@ -5,7 +5,7 @@ const config = require('../config');
 const mongooseConf = {
   useNewUrlParser: true, 
   useUnifiedTopology: true,
-  useCreateIndex: false,
+  useCreateIndex: true,
   useFindAndModify: true
 }
 

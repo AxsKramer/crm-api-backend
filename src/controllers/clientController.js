@@ -90,7 +90,7 @@ const deleteClient = async (req, res) => {
         .json({
           ok: true,
           message:
-            "The client was hidden but it is not possible to deleted permanently",
+            "The client was hidden, it is not possible to deleted permanently",
         });
     }
 

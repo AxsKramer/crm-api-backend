@@ -4,27 +4,23 @@ const config = require("../config");
 const auth = (req, res, next) => {
   const authHeader = req.get("Authorization");
 
-  if (authHeader) {
-    const error = new Error("Not Authenticated");
-    error.statusCode = 401;
-    throw error;
-  }
+  if (!authHeader){
+    res.status(401).json({ok: false, message: 'Not Authenticated'});
+    next();
+    return;
+  } 
 
   const token = authHeader.split(" ")[1];
   let checkToken;
   try {
     checkToken = jwt.verify(token, config.secretWord);
   } catch (error) {
-    error.statusCode = 500;
-    throw error;
+    res.status(500).json({ok: false, message: 'Internal Server Error' });
+    next();
   }
-
   if (!checkToken) {
-    const error = new Error("Not Authenticated");
-    error.statusCode = 401;
-    throw error;
+    res.status(401).json({ok: false, message: 'Not Authenticated' })
   }
-
   next();
 };
 

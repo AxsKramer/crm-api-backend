@@ -26,7 +26,7 @@ const upload = multer(multerConf).single('image');
 
 const uploadFile = (req, res, next) => {
   upload(req, res, (error) => {
-    if(error) return res.status(500).json({ok: false, messgae: 'File could not be upload', error: error.message});
+    if(error) return res.status(500).json({ok: false, message: 'File could not be upload', error: error.message});
     return next();
   })
 }
@@ -36,7 +36,7 @@ const getProducts = async (req, res) => {
     const products = await Product.find({state: true});
     res.status(200).json({ok: true, message: 'Products listed', products});
   } catch (error) {
-    res.status(500).json({ok: false, message: 'Products could not be listed', error: error.message});
+    res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
   }
 }
 
@@ -48,7 +48,7 @@ const getProductById = async (req, res) => {
     }
     res.status(200).json({ok: true, message: 'Product found', product});
   } catch (error) {
-    res.status(500).json({ok: false, message: 'Products could not be found', error: error.message});
+    res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
   }
 }
 
@@ -62,7 +62,7 @@ const createProduct = async (req, res) => {
     await newProduct.save();
     res.status(201).json({ok: true, message: 'Product created', product: newProduct});
   } catch (error) {
-    res.status(500).json({ok: false, message: 'Products could not be created', error: error.message});
+    res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
   }
 }
 
@@ -71,7 +71,7 @@ const searchProduct = async (req, res) => {
     const product = await Product.find({name: new RegExp(req.params.query, 'i')});
     res.status(200).json({ok: true, message: 'Product found', product});
   } catch (error) {
-    res.status(500).json({ok: false, message: 'Products could not be found', error: error.message});
+    res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
   }
 }
 
@@ -89,7 +89,7 @@ const updateProduct = async (req, res) => {
     let product = await Product.findOneAndUpdate({_id: req.params.productId}, newProduct, {new: true, runValidators: true});
     res.status(200).json({ok: true, message: 'Product updated', product});
   } catch (error) {
-    res.status(500).json({ok: true, message: 'Product could not be updated', error: error.message});
+    res.status(500).json({ok: true, message: 'Internal Server Error', error: error.message});
   }
 }
 
@@ -101,7 +101,7 @@ const deleteProduct = async (req, res) => {
     await product.save();
     res.status(200).json({ok: true, message: "The product was hidden, it is not possible to deleted permanently", product});
   } catch (error) {
-    res.status(500).json({ok: false, message: 'Product could not be deleted', error: error.message});
+    res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
   }
 }
 

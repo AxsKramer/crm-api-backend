@@ -4,27 +4,28 @@ const bcrypt = require("bcrypt");
 const chalk = require("chalk");
 const config = require("../config");
 
-const registerUser = async (req, res) => {
+const registerUser = async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
 
-  if (user)
-    return res.status(400).json({ message: "This user already exists" });
+  if (user){
+    res.status(400).json({ok: false, message: "This user already exists" });
+    next();
+  }
 
   const newUser = new User(req.body);
   newUser.password = await bcrypt.hash(req.body.password, 10);
   try {
     await newUser.save();
-    res.status(201).json({ message: "User created correctly" });
+    res.status(201).json({ok: true, message: "User created correctly" });
     console.log(chalk.italic.blue("User created correctly"));
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "There was an error when registering the user" });
+    res.status(500).json({ok: false, message: "There was an error when registering the user", error: error.message });
     console.log(chalk.italic.red(error.message));
+    next();
   }
 };
 
-const loginUser = async (req, res) => {
+const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
@@ -46,9 +47,14 @@ const loginUser = async (req, res) => {
         { expiresIn: "1h" }
       );
 
-      res.status(200).json({ token: token, message: "OK" });
+      res.status(200).json({ok: true, token: token, message: "Logged in" });
     }
   }
 };
 
-module.exports = { registerUser, loginUser };
+const deleteUser = async (req, res, next) => {
+  const user = await User.findByIdAndDelete({_id: req.params.userId});
+  console.log(user, 'User deleted');
+}
+
+module.exports = { registerUser, loginUser, deleteUser };

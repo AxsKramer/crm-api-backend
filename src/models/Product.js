@@ -19,7 +19,7 @@ const productSchema = new Schema({
     type: Boolean,
     default: true
   },
-  quantity: {
+  stock: {
     type: Number,
     required: [true, 'This field is required'],
     trim: true

@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 
 const router = Router();
 
-router.post("/create-account", registerUser);
+router.post("/create-account", auth, registerUser);
 router.post("/login", loginUser);
 router.delete("/delete-user/:userId",auth, deleteUser);
 

@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Project MERN. (Backend)",
   "main": "index.js",
+  "engines": {
+    "node": "14.15.0"
+  },
   "scripts": {
     "dev": "nodemon ./src/index",
     "start": "node src/index"

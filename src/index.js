@@ -17,7 +17,7 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(express.static(path.resolve(__dirname, '/src/uploads')));
+app.use('/static', express.static(path.resolve(__dirname, 'uploads')));
 
 app.use('/api/users', userRouter);
 app.use('/api/clients', clientRouter);

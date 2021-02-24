@@ -1,2 +1,2 @@
 # crm-api-backend
-Project MERN. (Backend)
+MERN Project. (Backend)

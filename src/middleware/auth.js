@@ -15,7 +15,7 @@ const auth = (req, res, next) => {
   try {
     checkToken = jwt.verify(token, config.secretWord);
   } catch (error) {
-    res.status(500).json({ok: false, message: 'Internal Server Error' });
+    res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message });
     next();
   }
   if (!checkToken) {

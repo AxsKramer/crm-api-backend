@@ -2,7 +2,7 @@ const Order = require('../models/Order');
 
 const getOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({state: true}).populate('client').populate({path: order.product, model: 'Product'});
+    const orders = await Order.find({state: true}).populate('client').populate({path: 'order.product', model: 'Product'}) || [];
     res.status(200).json({ok: true, message: 'Orders listed', orders: orders});
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
@@ -12,7 +12,7 @@ const getOrders = async (req, res, next) => {
 
 const getOrderById = async (req, res, next) => {
   try {
-    const order = await Order.find({_id: req.params.orderId}).populate('client').populate({path: order.product, model: 'Product'});
+    const order = await Order.find({_id: req.params.orderId}).populate('client').populate({path: 'order.product', model: 'Product'});
     
     if(!order){
       res.status(404).json({ok: false, message: 'This order does not exist'});

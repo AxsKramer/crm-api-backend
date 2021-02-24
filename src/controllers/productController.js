@@ -14,21 +14,12 @@ const multerConf = {
     }
   }),
   fileFilter(req, file, cb) {
-    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
       cb(null, true);
     }else{
       cb(new Error('Invalid format'));
     }
   }
-}
-
-const upload = multer(multerConf).single('image');
-
-const uploadFile = (req, res, next) => {
-  upload(req, res, (error) => {
-    if(error) return res.status(500).json({ok: false, message: 'File could not be upload', error: error.message});
-    return next();
-  })
 }
 
 const getProducts = async (req, res) => {
@@ -52,9 +43,19 @@ const getProductById = async (req, res) => {
   }
 }
 
-const createProduct = async (req, res) => {
-  const newProduct = new Product(req.body);
+const upload = multer(multerConf).single('image');
 
+const uploadFile = (req, res, next) => {
+  upload(req, res, error => {
+    if(error) {
+      res.status(500).json({ok: false, message: 'File could not be upload', error: error.message});
+    }
+    next();
+  })
+}
+
+const createProduct = async (req, res, next) => {
+  const newProduct = new Product(req.body);
   try {
     if(req.file.filename){
       newProduct.image = req.file.filename;
@@ -63,6 +64,7 @@ const createProduct = async (req, res) => {
     res.status(201).json({ok: true, message: 'Product created', product: newProduct});
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
+    next();
   }
 }
 
@@ -99,7 +101,7 @@ const deleteProduct = async (req, res) => {
     if (!product) res.status(404).json({ ok: false, message: "Product does not exist" });
     product.state = false;
     await product.save();
-    res.status(200).json({ok: true, message: "The product was hidden, it is not possible to deleted permanently", product});
+    res.status(200).json({ok: true, message: "Product deleted", product});
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
   }

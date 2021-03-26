@@ -10,7 +10,13 @@ const { userRouter, clientRouter, productRouter, orderRouter, trashRouter} = req
 dbConnection();
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:4000',
+  optionsSuccessStatus: 200,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
+}
+
+app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());

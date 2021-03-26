@@ -15,7 +15,6 @@ const orderSchema = new Schema({
   user:{
     type: Schema.ObjectId,
     ref: 'User',
-    required: true
   },
   total: {
     type: Number

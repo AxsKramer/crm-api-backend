@@ -24,9 +24,7 @@ const orderSchema = new Schema({
     type: Boolean,
     default: true
   },
-  timestamps: { 
-    createdAt: 'created_at' 
-  }
-});
+  
+},{ timestamps: { createdAt: 'created_at' } });
 
 module.exports = model('Order', orderSchema);

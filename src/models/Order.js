@@ -12,12 +12,20 @@ const orderSchema = new Schema({
     },
     quantity: Number,
   }],
+  user:{
+    type: Schema.ObjectId,
+    ref: 'User',
+    required: true
+  },
   total: {
     type: Number
   },
   state:{
     type: Boolean,
     default: true
+  },
+  timestamps: { 
+    createdAt: 'created_at' 
   }
 });
 

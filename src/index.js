@@ -11,9 +11,10 @@ dbConnection();
 const app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:4000',
+  origin: '*',
   optionsSuccessStatus: 200,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
+  methods: "GET,PUT,POST,DELETE",
+  preflightContinue: true,
 }
 
 app.use(cors(corsOptions));

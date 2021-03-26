@@ -6,24 +6,19 @@ const getOrders = async (req, res, next) => {
     res.status(200).json({ok: true, message: 'Orders listed', orders: orders});
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
-    next()
   }
+  next();
 }
 
 const getOrderById = async (req, res, next) => {
   try {
     const order = await Order.find({_id: req.params.orderId}).populate('client').populate({path: 'order.product', model: 'Product'});
-    
-    if(!order){
-      res.status(404).json({ok: false, message: 'This order does not exist'});
-      next()
-    }
+    if(!order) return res.status(404).json({ok: false, message: 'This order does not exist'});
     res.status(200).json({ok: true, message: 'Order found', order: order});
-
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
-    next()
   }
+  next()
 }
 
 const createOrder = async (req, res, next) => {
@@ -33,8 +28,8 @@ const createOrder = async (req, res, next) => {
     res.status(201).json({ok: true, message: 'Order created'})
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
-    next()
   } 
+  next()
 }
 
 const updateOrder = async (req, res, next) => {
@@ -46,25 +41,23 @@ const updateOrder = async (req, res, next) => {
     res.status(200).json({ok: true, message: 'Order updated'});
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
-    next()
   }
+  next()
 }
 
 const deleteOrder = async (req, res, next) => {
   try {
     const order = await Order.findById({_id: req.params.orderId});
-    if(!order){
-      res.status(404).json({ok: false, message: 'Order does not exist'});
-      next();
-    }
+    if(!order) return res.status(404).json({ok: false, message: 'Order does not exist'});
+
     order.state = false;
     await order.save();
     res.status(200).json({ok: true, message: 'Order deleted'});
 
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
-    next();
   }
+  next();
 }
 
 module.exports = {

@@ -1,14 +1,11 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const chalk = require('chalk');
-const path = require('path');
-const userRouter = require('./routes/userRouter');
-const clientRouter = require('./routes/clientRouter');
-const productRouter = require('./routes/productRouter');
-const orderRouter = require('./routes/orderRouter');
 const dbConnection = require('./db');
 const {port} = require('./config');
+const { userRouter, clientRouter, productRouter, orderRouter, trashRouter} = require('./routes');
 
 dbConnection();
 const app = express();
@@ -23,5 +20,6 @@ app.use('/api/users', userRouter);
 app.use('/api/clients', clientRouter);
 app.use('/api/products', productRouter);
 app.use('/api/orders', orderRouter);
+app.use('/api/trash', trashRouter);
 
-app.listen(port, () => console.log(chalk.italic.cyan(`Server running at http://localhost:${port}`)));
+app.listen(port, () => console.log(chalk.italic.cyan(`Server running in ${port}`)));

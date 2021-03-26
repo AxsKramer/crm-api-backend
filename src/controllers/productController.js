@@ -22,25 +22,25 @@ const multerConf = {
   }
 }
 
-const getProducts = async (req, res) => {
+const getProducts = async (req, res, next) => {
   try {
     const products = await Product.find({state: true});
     res.status(200).json({ok: true, message: 'Products listed', products});
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
   }
+  next();
 }
 
-const getProductById = async (req, res) => {
+const getProductById = async (req, res, next) => {
   try {
     const product = await Product.findById({_id: req.params.productId});
-    if(!product){
-      res.status(404).json({ok: false, message: `${req.params.productId} does not exist` })
-    }
+    if(!product) return res.status(404).json({ok: false, message: `${req.params.productId} does not exist` })
     res.status(200).json({ok: true, message: 'Product found', product});
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
   }
+  next();
 }
 
 const upload = multer(multerConf).single('image');
@@ -61,50 +61,51 @@ const createProduct = async (req, res, next) => {
       newProduct.image = req.file.filename;
     }
     await newProduct.save();
-    res.status(201).json({ok: true, message: 'Product created', product: newProduct});
+    res.status(201).json({ok: true, message: 'Product created'});
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
-    next();
   }
+  next();
 }
 
-const searchProduct = async (req, res) => {
+const searchProduct = async (req, res, next) => {
   try {
     const product = await Product.find({name: new RegExp(req.params.query, 'i')});
     res.status(200).json({ok: true, message: 'Product found', product});
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
   }
+  next();
 }
 
-const updateProduct = async (req, res) => {
+const updateProduct = async (req, res, next) => {
   try {
-    let newProduct = req.body;
-
+    const newProduct = req.body;
     if(req.file){
       newProduct.image = req.file.filename;
     }else{
       const previousProduct = await Product.findById(req.params.productId);
       newProduct.image = previousProduct.image;
     }
-
-    let product = await Product.findOneAndUpdate({_id: req.params.productId}, newProduct, {new: true, runValidators: true});
-    res.status(200).json({ok: true, message: 'Product updated', product});
+    await Product.findOneAndUpdate({_id: req.params.productId}, newProduct, {new: true, runValidators: true});
+    res.status(200).json({ok: true, message: 'Product updated'});
   } catch (error) {
-    res.status(500).json({ok: true, message: 'Internal Server Error', error: error.message});
+    res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
   }
+  next();
 }
 
-const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res,  next) => {
   try {
     const product = await Product.findById(req.params.productId);
     if (!product) res.status(404).json({ ok: false, message: "Product does not exist" });
     product.state = false;
     await product.save();
-    res.status(200).json({ok: true, message: "Product deleted", product});
+    res.status(200).json({ok: true, message: "Product deleted"});
   } catch (error) {
     res.status(500).json({ok: false, message: 'Internal Server Error', error: error.message});
   }
+  next();
 }
 
 module.exports = {

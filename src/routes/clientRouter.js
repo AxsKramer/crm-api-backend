@@ -1,13 +1,6 @@
 const { Router } = require("express");
-const {
-  getClients,
-  getClientById,
-  createClient,
-  updateClient,
-  deleteClient,
-} = require("../controllers/clientController");
+const { getClients, getClientById, createClient, updateClient, deleteClient} = require("../controllers/clientController");
 const auth = require('../middleware/auth');
-
 const router = Router();
 
 router.get("/", auth, getClients);

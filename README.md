@@ -1,7 +1,7 @@
 # CRM MERN Project (Backend).
 
 ### About Project
-This project is a basic Customer Relationship Management that manages the products, the information of the clients and the orders that they have made. Only an already registered user who has the administrator role can add a new user and delete it.
+This project is a basic Customer Relationship Management that manages the products in stock, the information of the clients and the orders that they have made. Only an already registered user can add a new user, new client, new orders and delete them.
 
 * ### API REST
 
@@ -13,6 +13,7 @@ This project is a basic Customer Relationship Management that manages the produc
 
 * ### Frontend Deployed in:
   * AWS
+  * [Demo](http://crm-business-web-app.s3-website.us-east-2.amazonaws.com/)
   * <https://github.com/AxsKramer/crm-frontend>
 
 * ### Database:
@@ -21,6 +22,10 @@ This project is a basic Customer Relationship Management that manages the produc
 * ### Authentication
   * JSON Web Tokens
 
+#### Install dependecies after download or clone
+`$ npm install`
+
+#### Make your own database configuration 
 
 #### To run project in development mode
 `$ npm run dev`
